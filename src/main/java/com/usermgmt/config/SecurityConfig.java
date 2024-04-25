@@ -34,11 +34,13 @@ public class SecurityConfig {
 			authCustomizer
 			.requestMatchers(HttpMethod.POST, "/user").permitAll()
 			.requestMatchers("/error").permitAll()
+			.requestMatchers("/h2-console/**").permitAll()
 			.requestMatchers("/user/**").hasRole("ADMIN")
 			.requestMatchers("/user").hasRole("ADMIN")
 			.anyRequest().authenticated();
 		})
 		.csrf(csrfCustomizer -> csrfCustomizer.disable())
+		.headers(headerConfig -> headerConfig.frameOptions(fo -> fo.disable()))
 		.httpBasic(withDefaults());
 		return http.build();
 	}
