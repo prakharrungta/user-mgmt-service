@@ -1,7 +1,5 @@
 package com.usermgmt.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +29,16 @@ public class UserController {
 	@PostMapping
 	public String createUser(@RequestBody User user) {
 		return userService.createUser(user);
+	}
+	
+	@DeleteMapping("{userId}")
+	public String deleteUser(@PathVariable Long userId) {
+		return userService.deleteUser(userId);
+	}
+
+	@PutMapping
+	public User updateUserInfo(@RequestBody User updatedUserInfo) {
+		return userService.updateUser(updatedUserInfo);
 	}
 	
 }
