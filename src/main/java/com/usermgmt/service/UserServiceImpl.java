@@ -51,9 +51,6 @@ public class UserServiceImpl implements UserService {
 				throw new InvalidInputException("Password is not in the specified format. Please check!");
 			existingUser.setPassword(userUpdates.getPassword());
 		}
-		if(userUpdates.getRoles() != null && !userUpdates.getRoles().isBlank()) {
-			existingUser.setRoles(userUpdates.getRoles());
-		}
 		User updatedUser = userRepo.save(existingUser);
 		log.info(updatedUser.getUsername() + " user info has been updated!");
 		return updatedUser;

@@ -36,7 +36,6 @@ public class UserServiceImplTest {
 		mockUser.setId(1L);
 		mockUser.setUsername("user0");
 		mockUser.setPassword("password@123");
-		mockUser.setRoles("ADMIN");
 	}
 
 	@Test
@@ -88,7 +87,6 @@ public class UserServiceImplTest {
 		existingUser.setId(1L);
 		existingUser.setUsername("exsName");
 		existingUser.setPassword("old#pass");
-		existingUser.setRoles("USER");
 		
 		User userUpdates = new User();
 		userUpdates.setId(1L);
@@ -97,7 +95,6 @@ public class UserServiceImplTest {
 		User updatedUser = new User();
 		updatedUser.setId(1L);
 		updatedUser.setPassword("old#pass");
-		updatedUser.setRoles("USER");
 		updatedUser.setUsername(userUpdates.getUsername());
 		
 		given(userRepo.findById(1L)).willReturn(Optional.of(existingUser));
@@ -114,7 +111,6 @@ public class UserServiceImplTest {
 		existingUser.setId(1L);
 		existingUser.setUsername("exsName");
 		existingUser.setPassword("old#pass");
-		existingUser.setRoles("USER");
 		
 		User userUpdates = new User();
 		userUpdates.setId(1L);
@@ -123,7 +119,6 @@ public class UserServiceImplTest {
 		User updatedUser = new User();
 		updatedUser.setId(1L);
 		updatedUser.setPassword("changed#Pass");
-		updatedUser.setRoles("USER");
 		updatedUser.setUsername(userUpdates.getUsername());
 		
 		given(userRepo.findById(1L)).willReturn(Optional.of(existingUser));
