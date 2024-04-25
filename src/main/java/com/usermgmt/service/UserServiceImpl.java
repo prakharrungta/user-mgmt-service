@@ -1,9 +1,13 @@
 package com.usermgmt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.usermgmt.config.InvalidInputException;
+import com.usermgmt.model.SecurityUser;
 import com.usermgmt.model.User;
 import com.usermgmt.repository.UserRepository;
 import com.usermgmt.util.UserValidation;
@@ -13,17 +17,22 @@ import lombok.extern.apachecommons.CommonsLog;
 
 @CommonsLog
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService  {
 
 	@Autowired
 	UserRepository userRepo;
 	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
 	@Override
 	public String createUser(User user) {
+		log.info("creating user:  " + user.getUsername() );
 		if(!UserValidation.validateUsername(user.getUsername()))
 			throw new InvalidInputException("Username is not in the specified format. Please check!");
 		if(!UserValidation.validatePassword(user.getPassword()))
 			throw new InvalidInputException("Password is not in the specified format. Please check!");
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepo.save(user);
 		return "User created: " + user.getUsername();
 	}
@@ -37,6 +46,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User updateUser(User userUpdates) {
+		log.info("updating user" );
 		if(userUpdates.getId() == null)
 			throw new InvalidInputException("user id is missing in input!");
 		
@@ -65,6 +75,12 @@ public class UserServiceImpl implements UserService {
 		String outputMsg = userName + " has been removed from our system";
 		log.info(outputMsg);
 		return outputMsg;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) {
+		User user = userRepo.findByUsername(username).get();
+		return new SecurityUser(user);
 	}
 
 }
