@@ -9,11 +9,14 @@
 		{
 			"name": "Create user",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"username\": \"user0\", \"password\": \"password@123\", \"roles\": \"ADMIN\" }",
+					"raw": "{\"username\": \"user2\", \"password\": \"password@000\", \"roles\": \"USER\" }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -36,17 +39,32 @@
 		{
 			"name": "Get user",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password@000",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/user/2",
+					"raw": "localhost:8080/user/3",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"user",
-						"2"
+						"3"
 					]
 				}
 			},
@@ -55,11 +73,26 @@
 		{
 			"name": "Update user",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password@000",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\": 2, \"username\": \"user00\", \"password\": \"password@1\"}",
+					"raw": "{\"id\": 3, \"password\": \"password@12\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -82,6 +115,21 @@
 		{
 			"name": "Delete user",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password@000",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"url": {
