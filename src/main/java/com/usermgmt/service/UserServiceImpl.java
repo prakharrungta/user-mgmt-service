@@ -12,7 +12,6 @@ import com.usermgmt.model.User;
 import com.usermgmt.repository.UserRepository;
 import com.usermgmt.util.UserValidation;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -28,6 +27,7 @@ public class UserServiceImpl implements UserService, UserDetailsService  {
 	
 	@Override
 	public String createUser(User user) {
+		log.info("creating user:  " + user.getUsername() );
 		if(!UserValidation.validateUsername(user.getUsername()))
 			throw new InvalidInputException("Username is not in the specified format. Please check!");
 		if(!UserValidation.validatePassword(user.getPassword()))
@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService, UserDetailsService  {
 	@Override
 	@Transactional
 	public User updateUser(User userUpdates) {
+		log.info("updating user" );
 		if(userUpdates.getId() == null)
 			throw new InvalidInputException("user id is missing in input!");
 		
@@ -81,16 +82,5 @@ public class UserServiceImpl implements UserService, UserDetailsService  {
 		User user = userRepo.findByUsername(username).get();
 		return new SecurityUser(user);
 	}
-	
-//	@PostConstruct
-//	public void setupInitialUsers() {
-//		if(!userRepo.findByUsername("user0").isPresent()){
-//			User user0 = new User();
-//			user0.setUsername("admin0");
-//			user0.setPassword(passwordEncoder.encode("admin"));
-//			user0.setRoles("ADMIN");
-//			userRepo.save(user0);
-//		}
-//	}
 
 }
